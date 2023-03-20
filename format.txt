@@ -1,0 +1,2 @@
+[jalan, (lon,lat), speed, speedUncapped, jam factor, cofidence, travesability]
+Jalan Leuwi,  (-6.915920041501522,107.55056002177298),(-6.915459958836436, 107.54971998743713)

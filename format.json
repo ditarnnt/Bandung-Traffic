@@ -1,0 +1,41 @@
+{
+  "sourceUpdated": "2023-03-15T13:54:57Z",
+  "results": [
+    {
+      "location": {
+        "description": "Jalan Leuwi Gajah/Jalan Mahar Martanegara",
+        "length": 2202,
+        "shape": {
+          "links": [
+            {
+              "points": [
+                {
+                  "lat": -6.915920041501522,
+                  "lng": 107.55056002177298
+                },
+                {
+                  "lat": -6.9155199732631445,
+                  "lng": 107.54977002739906
+                },
+                {
+                  "lat": -6.915459958836436,
+                  "lng": 107.54971998743713
+                }
+              ],
+              "length": 106
+            }
+          ]
+        }
+      },
+      "currentFlow": {
+        "speed": 6.9444447,
+        "speedUncapped": 6.9444447,
+        "freeFlow": 8.055555,
+        "jamFactor": 1.3,
+        "confidence": 0.7,
+        "traversability": "open"
+      }
+    }
+  ]
+}
+
