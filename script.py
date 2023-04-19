@@ -26,7 +26,7 @@ data = json.loads(response.text)
 # Get the current timestamp in UTC
 timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
-# Save the JSON data to a file with the timestamp in the filename
+# Save the JSON data to a file with the timestamp in the sfilename
 file_path = timestamp + ".json"
 with open(file_path, "w") as f:
     json.dump(data, f)
