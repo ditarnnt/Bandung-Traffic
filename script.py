@@ -4,31 +4,29 @@ import pandas as pd
 from datetime import datetime
 import time
 
-while True:
-    # Define the API endpoint
-    url = "https://data.traffic.hereapi.com/v7/flow"
 
-    # Define the query parameters
-    params = {
-        "locationReferencing": "shape",
-        #"in": "bbox:107.54908372065572,-6.926620456605005,107.72967148820469,-6.896286771555365"
-        "in": "bbox:107.2510292754,-7.3097642655,107.9384321719,-6.8128449268",
-        "apiKey": "z1hUE5rH83_F6uIgubqDkRHn6JQK8s5tUa106Nudp6c",
-        "responseattributes": "sh,fc"
-    }
+# Define the API endpoint
+url = "https://data.traffic.hereapi.com/v7/flow"
 
-    # Send the HTTP GET request to the API endpoint and get the response
-    response = requests.get(url, params=params)
+# Define the query parameters
+params = {
+    "locationReferencing": "shape",
+    #"in": "bbox:107.54908372065572,-6.926620456605005,107.72967148820469,-6.896286771555365"
+    "in": "bbox:107.522491,-6.978144,107.751051,-6.850944",
+    "apiKey": "z1hUE5rH83_F6uIgubqDkRHn6JQK8s5tUa106Nudp6c",
+    "responseattributes": "sh,fc"
+}
 
-    # Extract the JSON data from the response
-    data = json.loads(response.text)
+# Send the HTTP GET request to the API endpoint and get the response
+response = requests.get(url, params=params)
 
-    # Get the current timestamp in UTC
-    timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+# Extract the JSON data from the response
+data = json.loads(response.text)
 
-    # Save the JSON data to a file with the timestamp in the filename
-    with open(f"{timestamp}.json", "w") as f:
-        json.dump(data, f)
+# Get the current timestamp in UTC
+timestamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
-    # Wait for 30 minutes before repeating the loop
-    time.sleep(120)
+# Save the JSON data to a file with the timestamp in the filename
+file_path = timestamp + ".json"
+with open(file_path, "w") as f:
+    json.dump(data, f)
