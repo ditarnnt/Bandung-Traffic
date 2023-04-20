@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import os
 import folium
 import streamlit as st
+import altair as alt
 
 attr='(c) <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors (c) <a href="http://cartodb.com/attributions">CartoDB</a>, CartoDB <a href ="http://cartodb.com/attributions">attributions</a>'
 # from selenium import webdriver
@@ -28,75 +29,80 @@ import geopandas as gpd
 import pandas as pd
 import json
 
-def dataframe(filename):
-    with open(filename, 'r') as f:
-        data = json.load(f)
+# def dataframe(filename):
+#     with open(filename, 'r') as f:
+#         data = json.load(f)
 
-    rows = []
-    for result in data['results']:
-        location = result['location']
-        description = location.get('description', None) # use the .get() method to avoid KeyError
-        length = location.get('length', None) # use the .get() method to avoid KeyError
-        links = location['shape']['links']
-        latitudes = []
-        longitudes = []
-        for link in links:
-            if 'points' in link:
-                for point in link['points']:
-                    latitudes.append(point['lat'])
-                    longitudes.append(point['lng'])
-        currentFlow = result.get('currentFlow', {})
-        speed = currentFlow.get('speed', None) # use the .get() method to avoid KeyError
-        freeflow = currentFlow.get('freeFlow', None) # use the .get() method to avoid KeyError
-        jamfactor = currentFlow.get('jamFactor', None) # use the .get() method to avoid KeyError
-        rows.append([description, length, latitudes, longitudes, speed, freeflow, jamfactor])
+#     rows = []
+#     for result in data['results']:
+#         location = result['location']
+#         description = location.get('description', None) # use the .get() method to avoid KeyError
+#         length = location.get('length', None) # use the .get() method to avoid KeyError
+#         links = location['shape']['links']
+#         latitudes = []
+#         longitudes = []
+#         for link in links:
+#             if 'points' in link:
+#                 for point in link['points']:
+#                     latitudes.append(point['lat'])
+#                     longitudes.append(point['lng'])
+#         currentFlow = result.get('currentFlow', {})
+#         speed = currentFlow.get('speed', None) # use the .get() method to avoid KeyError
+#         freeflow = currentFlow.get('freeFlow', None) # use the .get() method to avoid KeyError
+#         jamfactor = currentFlow.get('jamFactor', None) # use the .get() method to avoid KeyError
+#         rows.append([description, length, latitudes, longitudes, speed, freeflow, jamfactor])
 
-    return pd.DataFrame(rows, columns=['Description', 'Length', 'Latitudes', 'Longitudes', 'Speed', 'FreeFlow', 'JamFactor'])
+#     return pd.DataFrame(rows, columns=['Description', 'Length', 'Latitudes', 'Longitudes', 'Speed', 'FreeFlow', 'JamFactor'])
 
-def process_here_maps_outputs(directory_path):
-    # Get a list of all JSON files in the directory
-    json_files = glob.glob(os.path.join(directory_path, '*.json'))
+# def process_here_maps_outputs(directory_path):
+#     # Get a list of all JSON files in the directory
+#     json_files = glob.glob(os.path.join(directory_path, '*.json'))
 
-    # Define empty DataFrame before the loop
-    df = pd.DataFrame(columns=['Time', 'Date', 'Day', 'Description', 'Length', 'Latitudes', 'Longitudes', 'Speed', 'FreeFlow', 'JamFactor'])
-    error_count = 0
-    error_files = []
+#     # Define empty DataFrame before the loop
+#     df = pd.DataFrame(columns=['Time', 'Date', 'Day', 'Description', 'Length', 'Latitudes', 'Longitudes', 'Speed', 'FreeFlow', 'JamFactor'])
+#     error_count = 0
+#     error_files = []
     
-    for json_file in json_files:
-        # Get the filename and parse the date and time
-        filename = os.path.basename(json_file)
-        date, time = os.path.splitext(filename)[0].split()
-        year, month, day = date.split('-')
-        hour, minute, second = time.split('-')
+#     for json_file in json_files:
+#         # Get the filename and parse the date and time
+#         filename = os.path.basename(json_file)
+#         date, time = os.path.splitext(filename)[0].split()
+#         year, month, day = date.split('-')
+#         hour, minute, second = time.split('-')
         
-        # Get the day of the week as a string
-        day_of_week = datetime.datetime(int(year), int(month), int(day)).strftime('%A')
+#         # Get the day of the week as a string
+#         day_of_week = datetime.datetime(int(year), int(month), int(day)).strftime('%A')
         
-        # Process each JSON file using the existing logic
-        try: 
-            df_temp = dataframe(json_file)
-            print(f'{filename} ok dataframe')
-        except:
-            print(f'{filename} error dataframe')
-            error_count += 1
-            error_files.append(filename)
-            continue
+#         # Process each JSON file using the existing logic
+#         try: 
+#             df_temp = dataframe(json_file)
+#             print(f'{filename} ok dataframe')
+#         except:
+#             print(f'{filename} error dataframe')
+#             error_count += 1
+#             error_files.append(filename)
+#             continue
         
-        # Add the date, time, and day columns to the DataFrame
-        df_temp['Date'] = date
-        df_temp['Time'] = time
-        df_temp['Day'] = day_of_week
+#         # Add the date, time, and day columns to the DataFrame
+#         df_temp['Date'] = date
+#         df_temp['Time'] = time
+#         df_temp['Day'] = day_of_week
         
-        # Append to the DataFrame after processing each file
-        df = pd.concat([df, df_temp])
+#         # Append to the DataFrame after processing each file
+#         df = pd.concat([df, df_temp])
     
-    print(f'Total number of error files: {error_count}')  
-    print("Files with errors:")
-    print(error_files)
-    return df
+#     print(f'Total number of error files: {error_count}')  
+#     print("Files with errors:")
+#     print(error_files)
+#     return df
 
-#to make dataframe
-df_00 = process_here_maps_outputs('E:/FASTRACK/SMT10/Bandung-Traffic/json_00')
+# #to make dataframe
+# df_00 = process_here_maps_outputs('E:/FASTRACK/SMT10/Bandung-Traffic/json_00')
+
+#read csv 
+import pandas as pd
+
+df_00 = pd.read_csv('traffic_bandung_00.csv',sep=',')
 
 #to make tab for traffic jam factor
 tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(['Monday', 'Tuesday', 'Wednesday','Thursday', 'Friday', 'Saturday', 'Sunday' ])
@@ -142,3 +148,59 @@ with tab7:
     df_minggu_mean = df_minggu.groupby('Time')[['JamFactor']].mean()
     st.header('Sunday')
     st.bar_chart(df_minggu_mean)
+
+# #Searching bar multiselect Bandung's street
+# descriptions = st.multiselect('Select descriptions', df_00['Description'].unique())
+# # selectbox day 
+# days = st.selectbox('Select day', df_00['Day'].unique())
+# #slider for time 
+# time_range = st.slider('Select time range', 0, 23, (8, 18), 1)
+
+# df_00['Time'] = pd.to_datetime(df_00['Time'], format = '%H-%M-%S')
+# df_00['Hour'] = df_00['Time'].dt.hour
+# # Filter the data based on the selected inputs
+# filtered_data = df_00[(df_00['Description'].isin(descriptions)) & (df_00['Day'] == days) & (df_00['Hour'] >= time_range[0]) & (df_00['Hour'] <= time_range[1])]
+# # jam factor analysis using time 
+# grouped_data = filtered_data.groupby('Description')['JamFactor'].mean().reset_index()
+# # Create a line chart of the mean jam factor over time
+
+# st.line_chart(grouped_data)
+
+import altair as alt
+df_00['Time'] = pd.to_datetime(df_00['Time'], format='%H-%M-%S')
+
+df_00['Time Range'] = df_00['Time'].apply(lambda x:f"0-{x.hour}" if x.hour < 12 else f"12-{x.hour-12}")
+# Searching bar multiselect Bandung's street
+descriptions = st.multiselect('Select descriptions', df_00['Description'].unique())
+# Selectbox day 
+days = st.selectbox('Select day', df_00['Day'].unique())
+# Slider for time 
+time_range = st.slider('Select time range', 0, 23, (8, 18), 1)
+
+df_00['Hour'] = df_00['Time'].dt.hour
+
+# Filter the data based on the selected inputs
+filtered_data = df_00[(df_00['Description'].isin(descriptions)) & 
+                      (df_00['Day'] == days) & 
+                      (df_00['Hour'] >= time_range[0]) & 
+                      (df_00['Hour'] <= time_range[1])]
+
+
+# Group the filtered data by description and time, and calculate the mean of 'JamFactor' for each group
+grouped_data = filtered_data.groupby('Time Range')['JamFactor'].mean().reset_index()
+
+chart = alt.Chart(filtered_data).mark_line().encode(
+    x='Hour:Q',
+    y='JamFactor:Q',
+    color='Description:N',
+    tooltip =['Description:N', 'Time:T', 'JamFactor:Q']
+).properties(
+    width=800,
+    height=500,
+    title = f"Mean Jam Factor by Time Range {days}"
+).interactive()
+
+# Display the chart
+st.altair_chart(chart, use_container_width=True)
+
+
