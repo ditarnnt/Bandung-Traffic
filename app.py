@@ -104,103 +104,146 @@ import pandas as pd
 
 df_00 = pd.read_csv('traffic_bandung_00.csv',sep=',')
 
-#to make tab for traffic jam factor
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(['Monday', 'Tuesday', 'Wednesday','Thursday', 'Friday', 'Saturday', 'Sunday' ])
+tab_utama,tab_rekomendasi = st.tabs(['Tab 1', 'Tab2'])
 
-with tab1:
-    df_senin = df_00.loc[df_00['Day'] == 'Monday']
-    df_senin_mean = df_senin.groupby('Time')[['JamFactor']].mean()
-    st.header('Monday')
-    st.bar_chart(df_senin_mean)
+with tab_utama:
+        #to make tab for traffic jam factor
+        tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(['Monday', 'Tuesday', 'Wednesday','Thursday', 'Friday', 'Saturday', 'Sunday' ])
 
-with tab2:
-    df_selasa = df_00.loc[df_00['Day'] == 'Tuesday']
-    df_selasa_mean = df_selasa.groupby('Time')[['JamFactor']].mean()
-    st.header('Tuesday')
-    st.bar_chart(df_selasa_mean)
+        with tab1:
+            df_senin = df_00.loc[df_00['Day'] == 'Monday']
+            df_senin_mean = df_senin.groupby('Time')[['JamFactor']].mean()
+            st.header('Monday')
+            st.bar_chart(df_senin_mean)
 
-with tab3:
-    df_rabu = df_00.loc[df_00['Day'] == 'Wednesday']
-    df_rabu_mean = df_rabu.groupby('Time')[['JamFactor']].mean()
-    st.header('Wednesday')
-    st.bar_chart(df_rabu_mean)
+        with tab2:
+            df_selasa = df_00.loc[df_00['Day'] == 'Tuesday']
+            df_selasa_mean = df_selasa.groupby('Time')[['JamFactor']].mean()
+            st.header('Tuesday')
+            st.bar_chart(df_selasa_mean)
 
-with tab4:
-    df_kamis = df_00.loc[df_00['Day'] == 'Thursday']
-    df_kamis_mean = df_kamis.groupby('Time')[['JamFactor']].mean()
-    st.header('Thursday')
-    st.bar_chart(df_kamis_mean)
+        with tab3:
+            df_rabu = df_00.loc[df_00['Day'] == 'Wednesday']
+            df_rabu_mean = df_rabu.groupby('Time')[['JamFactor']].mean()
+            st.header('Wednesday')
+            st.bar_chart(df_rabu_mean)
 
-with tab5:
-    df_jumat = df_00.loc[df_00['Day'] == 'Friday']
-    df_jumat_mean = df_jumat.groupby('Time')[['JamFactor']].mean()
-    st.header('Friday')
-    st.bar_chart(df_jumat_mean)
+        with tab4:
+            df_kamis = df_00.loc[df_00['Day'] == 'Thursday']
+            df_kamis_mean = df_kamis.groupby('Time')[['JamFactor']].mean()
+            st.header('Thursday')
+            st.bar_chart(df_kamis_mean)
 
-with tab6:
-    df_sabtu = df_00.loc[df_00['Day'] == 'Saturday']
-    df_sabtu_mean = df_sabtu.groupby('Time')[['JamFactor']].mean()
-    st.header('Saturday')
-    st.bar_chart(df_sabtu_mean)
+        with tab5:
+            df_jumat = df_00.loc[df_00['Day'] == 'Friday']
+            df_jumat_mean = df_jumat.groupby('Time')[['JamFactor']].mean()
+            st.header('Friday')
+            st.bar_chart(df_jumat_mean)
 
-with tab7:
-    df_minggu = df_00.loc[df_00['Day'] == 'Sunday']
-    df_minggu_mean = df_minggu.groupby('Time')[['JamFactor']].mean()
-    st.header('Sunday')
-    st.bar_chart(df_minggu_mean)
+        with tab6:
+            df_sabtu = df_00.loc[df_00['Day'] == 'Saturday']
+            df_sabtu_mean = df_sabtu.groupby('Time')[['JamFactor']].mean()
+            st.header('Saturday')
+            st.bar_chart(df_sabtu_mean)
 
-# #Searching bar multiselect Bandung's street
-# descriptions = st.multiselect('Select descriptions', df_00['Description'].unique())
-# # selectbox day 
-# days = st.selectbox('Select day', df_00['Day'].unique())
-# #slider for time 
-# time_range = st.slider('Select time range', 0, 23, (8, 18), 1)
+        with tab7:
+            df_minggu = df_00.loc[df_00['Day'] == 'Sunday']
+            df_minggu_mean = df_minggu.groupby('Time')[['JamFactor']].mean()
+            st.header('Sunday')
+            st.bar_chart(df_minggu_mean)
 
-# df_00['Time'] = pd.to_datetime(df_00['Time'], format = '%H-%M-%S')
-# df_00['Hour'] = df_00['Time'].dt.hour
-# # Filter the data based on the selected inputs
-# filtered_data = df_00[(df_00['Description'].isin(descriptions)) & (df_00['Day'] == days) & (df_00['Hour'] >= time_range[0]) & (df_00['Hour'] <= time_range[1])]
-# # jam factor analysis using time 
-# grouped_data = filtered_data.groupby('Description')['JamFactor'].mean().reset_index()
-# # Create a line chart of the mean jam factor over time
+        # #Searching bar multiselect Bandung's street
+        # descriptions = st.multiselect('Select descriptions', df_00['Description'].unique())
+        # # selectbox day 
+        # days = st.selectbox('Select day', df_00['Day'].unique())
+        # #slider for time 
+        # time_range = st.slider('Select time range', 0, 23, (8, 18), 1)
 
-# st.line_chart(grouped_data)
+        # df_00['Time'] = pd.to_datetime(df_00['Time'], format = '%H-%M-%S')
+        # df_00['Hour'] = df_00['Time'].dt.hour
+        # # Filter the data based on the selected inputs
+        # filtered_data = df_00[(df_00['Description'].isin(descriptions)) & (df_00['Day'] == days) & (df_00['Hour'] >= time_range[0]) & (df_00['Hour'] <= time_range[1])]
+        # # jam factor analysis using time 
+        # grouped_data = filtered_data.groupby('Description')['JamFactor'].mean().reset_index()
+        # # Create a line chart of the mean jam factor over time
 
-import altair as alt
-df_00['Time'] = pd.to_datetime(df_00['Time'], format='%H-%M-%S')
+        # st.line_chart(grouped_data)
 
-df_00['Time Range'] = df_00['Time'].apply(lambda x:f"0-{x.hour}" if x.hour < 12 else f"12-{x.hour-12}")
-# Searching bar multiselect Bandung's street
-descriptions = st.multiselect('Select descriptions', df_00['Description'].unique())
-# Selectbox day 
-days = st.selectbox('Select day', df_00['Day'].unique())
-# Slider for time 
-time_range = st.slider('Select time range', 0, 23, (8, 18), 1)
+        import altair as alt
+        df_00['Time'] = pd.to_datetime(df_00['Time'], format='%H-%M-%S')
+        df_00['Time Range'] = df_00['Time'].apply(lambda x:f"0-{x.hour}" if x.hour < 12 else f"12-{x.hour-12}")
+        # Searching bar multiselect Bandung's street
+        descriptions = st.multiselect('Select descriptions', df_00['Description'].unique())
+        # Selectbox day 
+        days = st.selectbox('Select day', df_00['Day'].unique())
+        # Slider for time 
+        time_range = st.slider('Select time range', 0, 23, (8, 18), 1)
 
-df_00['Hour'] = df_00['Time'].dt.hour
+        df_00['Hour'] = df_00['Time'].dt.hour
 
-# Filter the data based on the selected inputs
-filtered_data = df_00[(df_00['Description'].isin(descriptions)) & 
-                      (df_00['Day'] == days) & 
-                      (df_00['Hour'] >= time_range[0]) & 
-                      (df_00['Hour'] <= time_range[1])]
+        # Filter the data based on the selected inputs
+        filtered_data = df_00[(df_00['Description'].isin(descriptions)) & 
+                            (df_00['Day'] == days) & 
+                            (df_00['Hour'] >= time_range[0]) & 
+                            (df_00['Hour'] <= time_range[1])]
+
+        # Group the filtered data by description and time, and calculate the mean of 'JamFactor' for each group
+        grouped_data = filtered_data.groupby(['Description', 'Time Range']).mean().reset_index()
+
+        chart = alt.Chart(grouped_data, width=75, height=200).mark_bar(size=20).encode(
+            column =alt.Column('Hour:O', spacing = 0),
+            x=alt.X('Description:N'),
+            y=alt.Y('JamFactor:Q'),
+            color='Description:N', 
+            tooltip =['Description:N', 'Time Range:T', 'JamFactor:Q']
+        ).properties(
+            # width=400,
+            # height=500,
+            title = f"Mean Jam Factor by Time Range {days}"
+        ).configure_view(stroke='transparent'
+        ).interactive()
+
+        # Display the chart
+        st.altair_chart(chart, use_container_width=True)
+
+        
+
+with tab_rekomendasi:
+    import altair as alt
+    df_00['Time'] = pd.to_datetime(df_00['Time'], format='%H-%M-%S')
+
+    df_00['Time Range'] = df_00['Time'].apply(lambda x:f"0-{x.hour}" if x.hour < 12 else f"12-{x.hour-12}")
+    # Searching bar multiselect Bandung's street
+    descriptions_2 = st.multiselect('Select descriptions here', df_00['Description'].unique())
+    # Selectbox day 
+    days_2 = st.selectbox('Select day here', df_00['Day'].unique())
+    # Slider for time 
+    time_range_2 = st.slider('Select time range here', 0, 23, (8, 18), 1)
+
+    df_00['Hour'] = df_00['Time'].dt.hour
+
+    # Filter the data based on the selected inputs
+    filtered_data_2 = df_00[(df_00['Description'].isin(descriptions_2)) & 
+                        (df_00['Day'] == days_2) & 
+                        (df_00['Hour'] >= time_range_2[0]) & 
+                        (df_00['Hour'] <= time_range_2[1])]
 
 
-# Group the filtered data by description and time, and calculate the mean of 'JamFactor' for each group
-grouped_data = filtered_data.groupby('Time Range')['JamFactor'].mean().reset_index()
+    # Group the filtered data by description and time, and calculate the mean of 'JamFactor' for each group
+    grouped_data_2 = filtered_data_2.groupby(['Description','Time Range', 'JamFactor']).mean().reset_index()
 
-chart = alt.Chart(filtered_data).mark_line().encode(
-    x='Hour:Q',
-    y='JamFactor:Q',
-    color='Description:N',
-    tooltip =['Description:N', 'Time:T', 'JamFactor:Q']
-).properties(
-    width=800,
-    height=500,
-    title = f"Mean Jam Factor by Time Range {days}"
-).interactive()
+    chart2 = alt.Chart(grouped_data_2).mark_bar().encode(
+        x='Hour:Q',
+        y=alt.Y('JamFactor:Q', stack=True),
+        color='Description:N',
+        tooltip =['Description:N', 'Time:T', 'JamFactor:Q']
+    ).properties(
+        width=800,
+        height=500,
+        title = f"Mean Jam Factor by Time Range {days_2}"
+    ).interactive()
 
-# Display the chart
-st.altair_chart(chart, use_container_width=True)
+    # Display the chart
+    st.altair_chart(chart2, use_container_width=True)
 
 
