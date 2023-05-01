@@ -49,9 +49,11 @@ df_00_post['Time'] = pd.to_datetime(df_00_post['Time'], format='%H-%M-%S')
 df_00_post['Hour'] = df_00_post['Time'].dt.hour
 df_00_post['Time Range'] = df_00_post['Time'].apply(lambda x:f"0-{x.hour}" if x.hour < 12 else f"12-{x.hour-12}")
 
+
 with tab_puasa:
+        st.title ('Visualize Bandung Traffic - Puasa')
         #TRAFFIC DISTRIBUTION
-        st.title ("Road Line Trend Traffic Puasa")
+        st.header ("Road Line Trend Traffic Puasa")
         video_file = open('puasa.mp4', 'rb')
         video_bytes = video_file.read()
         st.video(video_bytes)
@@ -66,7 +68,7 @@ with tab_puasa:
                 df_senin = df_00.loc[df_00['Day'] == 'Monday']
                 df_senin_mean = df_senin.groupby('Time')[['JamFactor']].mean()
                 st.header('Monday')
-                st.line_chart(df_senin_mean)
+                st.bar_chart(df_senin_mean)
 
                 #TOP 5 - Senin
                 time_range_senin = st.slider('Select time range here:', 0, 23, (8, 18), 1)
@@ -101,7 +103,7 @@ with tab_puasa:
                 df_selasa = df_00.loc[df_00['Day'] == 'Tuesday']
                 df_selasa_mean = df_selasa.groupby('Time')[['JamFactor']].mean()
                 st.header('Tuesday')
-                st.line_chart(df_selasa_mean)
+                st.bar_chart(df_selasa_mean)
 
                 #TOP 5 - Selasa
                 time_range_selasa = st.slider('Select time range here: ', 0, 23, (8, 18), 1)
@@ -136,7 +138,7 @@ with tab_puasa:
                 df_rabu = df_00.loc[df_00['Day'] == 'Wednesday']
                 df_rabu_mean = df_rabu.groupby('Time')[['JamFactor']].mean()
                 st.header('Wednesday')
-                st.line_chart(df_rabu_mean)
+                st.bar_chart(df_rabu_mean)
            
                 time_range_rabu = st.slider('Select time range here:  ', 0, 23, (8, 18), 1)
                 # Filter the data based on the selected inputs
@@ -170,7 +172,7 @@ with tab_puasa:
                 df_kamis = df_00.loc[df_00['Day'] == 'Thursday']
                 df_kamis_mean = df_kamis.groupby('Time')[['JamFactor']].mean()
                 st.header('Thursday')
-                st.line_chart(df_kamis_mean)
+                st.bar_chart(df_kamis_mean)
 
                 time_range_kamis = st.slider('Select time range here:   ', 0, 23, (8, 18), 1)
                 # Filter the data based on the selected inputs
@@ -204,7 +206,7 @@ with tab_puasa:
                 df_jumat = df_00.loc[df_00['Day'] == 'Friday']
                 df_jumat_mean = df_jumat.groupby('Time')[['JamFactor']].mean()
                 st.header('Friday')
-                st.line_chart(df_jumat_mean)
+                st.bar_chart(df_jumat_mean)
 
                 time_range_sabtu = st.slider('Select time range here:     ', 0, 23, (8, 18), 1)
                 # Filter the data based on the selected inputs
@@ -238,7 +240,7 @@ with tab_puasa:
                 df_sabtu = df_00.loc[df_00['Day'] == 'Saturday']
                 df_sabtu_mean = df_sabtu.groupby('Time')[['JamFactor']].mean()
                 st.header('Saturday')
-                st.line_chart(df_sabtu_mean)
+                st.bar_chart(df_sabtu_mean)
 
                 time_range_sabtu = st.slider('Select time range here:       ', 0, 23, (8, 18), 1)
                 # Filter the data based on the selected inputs
@@ -272,7 +274,7 @@ with tab_puasa:
                 df_minggu = df_00.loc[df_00['Day'] == 'Sunday']
                 df_minggu_mean = df_minggu.groupby('Time')[['JamFactor']].mean()
                 st.header('Sunday')
-                st.line_chart(df_minggu_mean)
+                st.bar_chart(df_minggu_mean)
 
                 time_range_minggu = st.slider('Select time range here:                 ', 0, 23, (8, 18), 1)
                 # Filter the data based on the selected inputs
@@ -301,6 +303,7 @@ with tab_puasa:
       
 
         # AREA MAP KECAMATAN DISTRIBUTION
+        st.header ("Jam Factor Distribution in Each Kecamatan")
         left,right = st.columns([1,2])
 
         with left:
@@ -329,13 +332,14 @@ with tab_puasa:
         # Create the heatmap
             fig = px.density_mapbox(filtered_data, lat='latitude_kecamatan', lon='longitude_kecamatan', z='JamFactor',
                                     radius=15, center=dict(lat=-6.91474, lon=107.60981), zoom=10, mapbox_style='carto-positron',
-                                    hover_name='Kecamatan', hover_data=['Description', 'Speed', 'JamFactor'])
+                                    hover_name='Kecamatan', hover_data=['Description'])
 
             # Display the heatmap
             st.plotly_chart(fig, use_container_width=True)
 
 
         #JAM FACTOR PREDICTION
+        st.header('Mean Jam Factor by Time Range')
         left, right  = st.columns([1,2])
         with left:
             import altair as alt
@@ -379,6 +383,7 @@ with tab_puasa:
 
         #FOR COMPARING JAM FACTOR
         import altair as alt
+        st.header ('Mean Jam Factor by Time Range for Selected Streets in Bandung')
         df_00['Time'] = pd.to_datetime(df_00['Time'], format='%H-%M-%S')
         df_00['Time Range'] = df_00['Time'].apply(lambda x:f"0-{x.hour}" if x.hour < 12 else f"12-{x.hour-12}")
         # Searching bar multiselect Bandung's street
@@ -431,8 +436,9 @@ with tab_puasa:
 
 
 with tab_lebaran:
+    st.title ('Visualize Bandung Traffic - Pre Lebaran, Lebaran, Post Lebaran')
     #TRAFFIC DISTRIBUTION
-    st.title ("Road Line Trend Traffic Lebaran")
+    st.header ("Road Line Trend Traffic Lebaran")
     video_file = open('lebaran.mp4', 'rb')
     video_bytes = video_file.read()
     st.video(video_bytes)
@@ -448,7 +454,7 @@ with tab_lebaran:
             df_selasa_pre = df_00_pre.loc[df_00_pre['Day'] == 'Tuesday']
             df_selasa_pre_mean = df_selasa_pre.groupby('Time')[['JamFactor']].mean()
             st.header('Tuesday -pre')
-            st.line_chart(df_selasa_pre_mean)
+            st.bar_chart(df_selasa_pre_mean)
 
             #TOP 5 - Senin
             time_range_selasa_pre = st.slider('Select time range here:                           ', 0, 23, (8, 18), 1)
@@ -483,7 +489,7 @@ with tab_lebaran:
             df_rabu_pre = df_00_pre.loc[df_00_pre['Day'] == 'Wednesday']
             df_rabu_pre_mean = df_rabu_pre.groupby('Time')[['JamFactor']].mean()
             st.header('Wednesday')
-            st.line_chart(df_rabu_pre_mean)
+            st.bar_chart(df_rabu_pre_mean)
 
             #TOP 5 - Selasa
             time_range_rabu_pre = st.slider('Select time range here:                            ', 0, 23, (8, 18), 1)
@@ -518,7 +524,7 @@ with tab_lebaran:
             df_kamis_pre = df_00_pre.loc[df_00_pre['Day'] == 'Thursday']
             df_kamis_pre_mean = df_kamis_pre.groupby('Time')[['JamFactor']].mean()
             st.header('Thursday')
-            st.line_chart(df_kamis_pre_mean)
+            st.bar_chart(df_kamis_pre_mean)
         
             time_range_kamis_pre = st.slider('Select time range here:                                   ', 0, 23, (8, 18), 1)
             # Filter the data based on the selected inputs
@@ -552,7 +558,7 @@ with tab_lebaran:
             df_jumat_pre = df_00_pre.loc[df_00_pre['Day'] == 'Friday']
             df_jumat_pre_mean = df_jumat_pre.groupby('Time')[['JamFactor']].mean()
             st.header('Friday')
-            st.line_chart(df_jumat_pre_mean)
+            st.bar_chart(df_jumat_pre_mean)
 
             time_range_jumat_pre = st.slider('Select time range here:                                 ', 0, 23, (8, 18), 1)
             # Filter the data based on the selected inputs
@@ -586,7 +592,7 @@ with tab_lebaran:
             df_sabtu_lebaran = df_00_pre.loc[df_00_pre['Day'] == 'Saturday']
             df_sabtu_lebaran_mean = df_sabtu_lebaran.groupby('Time')[['JamFactor']].mean()
             st.header('Friday')
-            st.line_chart(df_sabtu_lebaran_mean)
+            st.bar_chart(df_sabtu_lebaran_mean)
 
             time_range_sabtu_lebaran = st.slider('Select time range here:                                         ', 0, 23, (8, 18), 1)
             # Filter the data based on the selected inputs
@@ -620,7 +626,7 @@ with tab_lebaran:
             df_minggu_lebaran  = df_00_pre.loc[df_00_pre['Day'] == 'Sunday']
             df_minggu_lebaran_mean = df_minggu_lebaran.groupby('Time')[['JamFactor']].mean()
             st.header('Saturday')
-            st.line_chart(df_minggu_lebaran_mean)
+            st.bar_chart(df_minggu_lebaran_mean)
 
             time_range_minggu_lebaran = st.slider('Select time range here:                                        ', 0, 23, (8, 18), 1)
             # Filter the data based on the selected inputs
@@ -654,7 +660,7 @@ with tab_lebaran:
             df_senin_post = df_00_post.loc[df_00_post['Day'] == 'Monday']
             df_senin_post_mean = df_senin_post.groupby('Time')[['JamFactor']].mean()
             st.header('Monday')
-            st.line_chart(df_senin_post_mean)
+            st.bar_chart(df_senin_post_mean)
 
             time_range_senin_post = st.slider('Select time range here:                                                       ', 0, 23, (8, 18), 1)
             # Filter the data based on the selected inputs
@@ -687,7 +693,7 @@ with tab_lebaran:
             df_selasa_post = df_00_post.loc[df_00_post['Day'] == 'Tuesday']
             df_selasa_post_mean = df_selasa_post.groupby('Time')[['JamFactor']].mean()
             st.header('Tuesday')
-            st.line_chart(df_selasa_post_mean)
+            st.bar_chart(df_selasa_post_mean)
 
             time_range_selasa_post = st.slider('Select time range here:                                                               ', 0, 23, (8, 18), 1)
             # Filter the data based on the selected inputs
@@ -720,7 +726,7 @@ with tab_lebaran:
             df_rabu_post = df_00_post.loc[df_00_post['Day'] == 'Wednesday']
             df_rabu_post_mean = df_rabu_post.groupby('Time')[['JamFactor']].mean()
             st.header('Wednesday')
-            st.line_chart(df_rabu_post_mean)
+            st.bar_chart(df_rabu_post_mean)
 
             time_range_rabu_post = st.slider('Select time range here:                                                   ', 0, 23, (8, 18), 1)
             # Filter the data based on the selected inputs
